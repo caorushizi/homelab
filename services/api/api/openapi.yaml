@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: Homelab API
+  description: Manual Homelab inventory for routers, machines, and machine services.
+  version: 0.1.0
+servers:
+  - url: http://127.0.0.1:3000
+paths:
+  /health:
+    get:
+      summary: Check API and database health
+      responses:
+        "200":
+          description: Healthy
+  /api/v1/topology:
+    get:
+      summary: Return the complete ordered topology
+      responses:
+        "200":
+          description: Router hierarchy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopologyResponse"
+  /api/v1/routers:
+    post:
+      summary: Create a router
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouterInput"
+      responses:
+        "201":
+          description: Router created
+  /api/v1/routers/{routerID}:
+    parameters:
+      - $ref: "#/components/parameters/RouterID"
+    patch:
+      summary: Update a router
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouterInput"
+      responses:
+        "200":
+          description: Router updated
+    delete:
+      summary: Delete a router and its descendants
+      responses:
+        "200":
+          description: Router deleted
+  /api/v1/routers/{routerID}/machines:
+    parameters:
+      - $ref: "#/components/parameters/RouterID"
+    post:
+      summary: Create a machine under a router
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MachineInput"
+      responses:
+        "201":
+          description: Machine created
+  /api/v1/machines/{machineID}:
+    parameters:
+      - $ref: "#/components/parameters/MachineID"
+    patch:
+      summary: Update a machine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MachineInput"
+      responses:
+        "200":
+          description: Machine updated
+    delete:
+      summary: Delete a machine and its services
+      responses:
+        "200":
+          description: Machine deleted
+  /api/v1/machines/{machineID}/services:
+    parameters:
+      - $ref: "#/components/parameters/MachineID"
+    post:
+      summary: Create a service under a machine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceInput"
+      responses:
+        "201":
+          description: Service created
+  /api/v1/services/{serviceID}:
+    parameters:
+      - name: serviceID
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    patch:
+      summary: Update a service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceInput"
+      responses:
+        "200":
+          description: Service updated
+    delete:
+      summary: Delete a service
+      responses:
+        "200":
+          description: Service deleted
+components:
+  parameters:
+    RouterID:
+      name: routerID
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    MachineID:
+      name: machineID
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Response:
+      type: object
+      required: [success, code, message]
+      properties:
+        success:
+          type: boolean
+        code:
+          type: integer
+        message:
+          type: string
+        data: {}
+    TopologyResponse:
+      allOf:
+        - $ref: "#/components/schemas/Response"
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Router"
+    RouterInput:
+      type: object
+      required: [name, address, management_url]
+      properties:
+        name: { type: string }
+        address: { type: string }
+        management_url: { type: string, format: uri }
+        image: { type: string }
+        status: { $ref: "#/components/schemas/Status" }
+        sort_order: { type: integer }
+    MachineInput:
+      type: object
+      required: [name, address]
+      properties:
+        name: { type: string }
+        address: { type: string }
+        management_url: { type: string, format: uri }
+        image: { type: string }
+        status: { $ref: "#/components/schemas/Status" }
+        sort_order: { type: integer }
+    ServiceInput:
+      type: object
+      required: [name, url]
+      properties:
+        name: { type: string }
+        url: { type: string, format: uri }
+        icon: { type: string }
+        status: { $ref: "#/components/schemas/Status" }
+        sort_order: { type: integer }
+    Status:
+      type: string
+      enum: [online, offline, unknown]
+      default: unknown
+    Router:
+      allOf:
+        - $ref: "#/components/schemas/RouterInput"
+        - type: object
+          required: [id, machines]
+          properties:
+            id: { type: string, format: uuid }
+            machines:
+              type: array
+              items:
+                $ref: "#/components/schemas/Machine"
+    Machine:
+      allOf:
+        - $ref: "#/components/schemas/MachineInput"
+        - type: object
+          required: [id, router_id, services]
+          properties:
+            id: { type: string, format: uuid }
+            router_id: { type: string, format: uuid }
+            services:
+              type: array
+              items:
+                $ref: "#/components/schemas/Service"
+    Service:
+      allOf:
+        - $ref: "#/components/schemas/ServiceInput"
+        - type: object
+          required: [id, machine_id]
+          properties:
+            id: { type: string, format: uuid }
+            machine_id: { type: string, format: uuid }

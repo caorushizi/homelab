@@ -1,0 +1,16 @@
+{
+  "name": "homelab",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.14.0",
+  "scripts": {
+    "prepare": "husky",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@changesets/cli": "latest",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "husky": "latest"
+  }
+}

@@ -1,0 +1,35 @@
+# 这个文件提供配置 schema 和本地开发默认值，committed 到仓库。
+#
+# 生产敏感值不写在这里 —— 改用：
+#
+#     one env set DATABASE_URL=postgresql://user:password@host:5432/labmap -p api
+#
+# Viper 在运行时通过 AutomaticEnv + SetEnvKeyReplacer(".", "_") 把环境
+# 变量按嵌套路径覆盖到对应字段：
+#
+#     env var DATABASE_URL  →  viper.Get("database.url")
+#     env var DATABASE_PATH →  viper.Get("database.path")
+#     env var APP_ENV       →  viper.Get("app.env")
+#
+# 即"嵌套路径 a.b.c ↔ env var A_B_C"。所以服务无须依赖一个生成的
+# config.yaml，env 注入与文件覆盖会自动归一。
+
+app:
+  name: homelab-api
+  env: development
+
+port: 3000
+
+# PostgreSQL 是默认数据库。本地需要轻量测试时可将 driver 改为 sqlite。
+database:
+  driver: postgres
+  url: postgresql://labmap:labmap@127.0.0.1:5432/labmap?sslmode=disable
+  path: data/labmap.db
+
+cors:
+  allowed_origins:
+    - http://localhost:3000
+    - http://localhost:5173
+    - http://127.0.0.1:5173
+    - http://tauri.localhost
+    - tauri://localhost

@@ -1,0 +1,23 @@
+# binaries
+bin/
+
+# test output
+coverage.out
+
+# environment
+.env
+.env.local
+configs/config.yaml
+configs/config.local.yaml
+
+# logs
+logs/
+
+# SQLite runtime data
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# misc
+.DS_Store

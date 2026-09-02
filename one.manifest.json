@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "workspace": {
+    "id": "homelab-e09fae",
+    "name": "homelab"
+  },
+  "environments": {
+    "names": [
+      "dev",
+      "preview",
+      "prod"
+    ],
+    "default": "dev"
+  },
+  "domains": {
+    "env": {
+      "kind": "dotenv"
+    }
+  },
+  "projects": [
+    {
+      "name": "desktop",
+      "relativeDir": "apps/desktop",
+      "templateId": "react-spa",
+      "toolchain": "node",
+      "buildVersion": "0.1.0",
+      "packageManager": "pnpm",
+      "domains": {
+        "dev": {
+          "command": "pnpm run tauri:dev"
+        }
+      }
+    },
+    {
+      "name": "api",
+      "relativeDir": "services/api",
+      "templateId": "go-api",
+      "toolchain": "go",
+      "buildVersion": "0.1.0",
+      "domains": {
+        "dev": {
+          "command": "go run ./cmd/server"
+        }
+      }
+    }
+  ]
+}

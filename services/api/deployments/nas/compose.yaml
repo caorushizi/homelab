@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: labmap-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: labmap
+      POSTGRES_USER: labmap
+      POSTGRES_PASSWORD: ${LABMAP_DB_PASSWORD:-labmap-change-me}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmap -d labmap"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - labmap-postgres-data:/var/lib/postgresql
+
+  labmap-api:
+    build:
+      context: ../..
+      dockerfile: build/package/Dockerfile
+    image: labmap-api:local
+    container_name: labmap-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_ENV: production
+      PORT: "3000"
+      DATABASE_DRIVER: postgres
+      DATABASE_URL: postgresql://labmap:${LABMAP_DB_PASSWORD:-labmap-change-me}@postgres:5432/labmap?sslmode=disable
+      CORS_ALLOWED_ORIGINS: ${LABMAP_ALLOWED_ORIGINS:-http://tauri.localhost,tauri://localhost}
+    ports:
+      - "${LABMAP_PORT:-3000}:3000"
+
+volumes:
+  labmap-postgres-data:

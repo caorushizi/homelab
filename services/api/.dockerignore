@@ -1,0 +1,6 @@
+.git
+.env
+bin
+data
+coverage.out
+deployments/nas/data
