@@ -20,7 +20,14 @@
 				"center": true,
 				"resizable": true,
 				"theme": "Dark",
-				"fullscreen": false
+				"fullscreen": false,
+				"decorations": true,
+				"titleBarStyle": "Overlay",
+				"hiddenTitle": true,
+				"trafficLightPosition": {
+					"x": 20,
+					"y": 22
+				}
 			}
 		],
 		"security": {

@@ -120,6 +120,13 @@
 		--line-height-relaxed: 1.625;
 		--line-height-loose: 2;
 
+		--aurora-cyan: rgb(30 133 191);
+		--aurora-violet: rgb(115 94 224);
+		--aurora-opacity: 0.085;
+		--workspace-shadow: rgb(26 45 88 / 0.09);
+		--workspace-bar: rgb(248 251 255 / 0.88);
+		--workspace-glass: rgb(255 255 255 / 0.76);
+		--notes-launch-bg: rgb(237 242 255 / 0.95);
 		--background: rgb(246 249 252);
 		--foreground: rgb(15 23 42);
 		--card: rgb(255 255 255 / 0.92);
@@ -160,15 +167,14 @@
 		--panel: rgb(255 255 255 / 0.78);
 		--panel-strong: rgb(255 255 255 / 0.96);
 		--sidebar: rgb(246 249 255 / 0.94);
-		--topology-line: rgb(68 113 235 / 0.68);
-		--topology-glow: rgb(68 113 235 / 0.2);
+
 		--status-online: rgb(31 158 77);
 		--status-offline: rgb(220 38 38);
 		--status-unknown: rgb(100 116 139);
 		--router-card-bg: rgb(255 255 255 / 0.58);
 		--router-card-hover: rgb(238 244 255 / 0.88);
 		--router-card-selected: rgb(229 237 255 / 0.92);
-		--topology-surface: rgb(68 113 235 / 0.045);
+
 		--service-list-bg: rgb(255 255 255 / 0.48);
 		--service-row-hover: rgb(68 113 235 / 0.055);
 		--orbit-bg: rgb(255 255 255 / 0.72);
@@ -176,6 +182,13 @@
 	}
 
 	:root[data-theme="dark"] {
+		--aurora-cyan: rgb(105 200 255);
+		--aurora-violet: rgb(156 123 255);
+		--aurora-opacity: 0.46;
+		--workspace-shadow: rgb(0 3 14 / 0.32);
+		--workspace-bar: rgb(4 10 23 / 0.82);
+		--workspace-glass: rgb(8 18 38 / 0.64);
+		--notes-launch-bg: rgb(38 47 100 / 0.5);
 		--background: rgb(3 8 20);
 		--foreground: rgb(241 246 255);
 		--card: rgb(11 19 37 / 0.9);
@@ -216,15 +229,14 @@
 		--panel: rgb(8 16 33 / 0.78);
 		--panel-strong: rgb(10 19 39 / 0.94);
 		--sidebar: rgb(6 13 27 / 0.92);
-		--topology-line: rgb(76 123 255 / 0.8);
-		--topology-glow: rgb(76 123 255 / 0.3);
+
 		--status-online: rgb(72 222 112);
 		--status-offline: rgb(248 113 113);
 		--status-unknown: rgb(148 163 184);
 		--router-card-bg: rgb(13 23 43 / 0.42);
 		--router-card-hover: rgb(17 30 56 / 0.64);
 		--router-card-selected: rgb(18 31 60 / 0.74);
-		--topology-surface: rgb(48 86 174 / 0.08);
+
 		--service-list-bg: rgb(4 10 23 / 0.38);
 		--service-row-hover: rgb(78 124 255 / 0.055);
 		--orbit-bg: rgb(10 20 40 / 0.48);

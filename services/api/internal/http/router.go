@@ -48,6 +48,8 @@ func NewRouter(deps Dependencies) *Router {
 
 	api := engine.Group("/api/v1")
 	{
+		api.GET("/machines/:machineID/note", deps.Handler.Notes.Get)
+		api.PUT("/machines/:machineID/note", deps.Handler.Notes.Put)
 		api.GET("/topology", deps.Handler.Inventory.Topology)
 
 		api.POST("/routers", deps.Handler.Inventory.CreateRouter)

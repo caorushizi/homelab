@@ -34,3 +34,21 @@ export async function createService(
 	const response = await httpClient.post<ServiceEndpoint>(`/machines/${machineID}/services`, input);
 	return response.data;
 }
+
+export async function updateRouter(id: string, input: RouterInput): Promise<RouterDevice> {
+	return (await httpClient.patch<RouterDevice>(`/routers/${encodeURIComponent(id)}`, input)).data;
+}
+export async function updateMachine(id: string, input: MachineInput): Promise<Machine> {
+	return (await httpClient.patch<Machine>(`/machines/${encodeURIComponent(id)}`, input)).data;
+}
+export async function updateService(id: string, input: ServiceInput): Promise<ServiceEndpoint> {
+	return (await httpClient.patch<ServiceEndpoint>(`/services/${encodeURIComponent(id)}`, input))
+		.data;
+}
+export async function deleteInventory(
+	kind: "router" | "machine" | "service",
+	id: string,
+): Promise<void> {
+	const paths = { router: "routers", machine: "machines", service: "services" };
+	await httpClient.delete(`/${paths[kind]}/${encodeURIComponent(id)}`);
+}

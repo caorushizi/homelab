@@ -29,6 +29,7 @@ func New(cfg config.Config, log *zap.Logger) (*App, error) {
 	inventoryService := service.NewInventoryService(inventoryRepo)
 
 	handlerSet := handlers.Set{
+		Notes:     handlers.NewNoteHandler(service.NewNoteService(inventoryRepo)),
 		App:       handlers.NewAppHandler(cfg),
 		Health:    handlers.NewHealthHandler(db),
 		Inventory: handlers.NewInventoryHandler(inventoryService),

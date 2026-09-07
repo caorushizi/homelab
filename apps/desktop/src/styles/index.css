@@ -4,3 +4,7 @@
 @import "./tokens.css";
 @import "./tailwind.css";
 @import "./labmap.css" layer(components);
+
+@import "./workspace.css" layer(components);
+
+@import "./settings.css" layer(components);

@@ -109,7 +109,7 @@ func openSQLite(databasePath string, log *zap.Logger) (*gorm.DB, error) {
 }
 
 func migrate(db *gorm.DB) error {
-	if err := db.AutoMigrate(&domain.Router{}, &domain.Machine{}, &domain.ServiceEndpoint{}); err != nil {
+	if err := db.AutoMigrate(&domain.Router{}, &domain.Machine{}, &domain.ServiceEndpoint{}, &domain.MachineNote{}); err != nil {
 		return fmt.Errorf("migrating inventory schema: %w", err)
 	}
 	return nil

@@ -1,3 +1,4 @@
+import { dragWindow, isMacDesktopWindow } from "@/lib/window";
 import axios from "axios";
 import { ArrowRight, Database, LoaderCircle, Moon, ShieldCheck, Sun } from "lucide-react";
 import type React from "react";
@@ -40,6 +41,7 @@ export const ServerSetup: React.FC = () => {
 
 	return (
 		<main className="relative grid min-h-screen place-items-center overflow-hidden bg-background px-5 py-10 text-foreground">
+			{isMacDesktopWindow() && <div className="setup-window-bar" onMouseDown={dragWindow}></div>}
 			<Button
 				type="button"
 				variant="outline"

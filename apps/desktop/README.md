@@ -6,8 +6,9 @@ Homelab 的 Tauri 2 桌面客户端。界面使用 React + Vite，原生容器�
 
 - 首次启动验证并保存 NAS 服务器地址
 - 从主界面退出当前服务器并重新连接
-- 以路由器为中心的两层机器拓扑
-- 手动添加路由器、机器和服务
+- 路由器总览与机器卡片浏览，记住上次工作位置
+- 独立设置页集中新增、编辑和删除路由器、机器及服务
+- 设置页编辑 Markdown 维护备注，浏览页仅展示已保存的备注
 - 查看机器下的所有服务入口
 - 通过 Tauri Opener 打开路由器和服务管理页
 - 暗黑空间化界面与设备搜索
@@ -53,11 +54,11 @@ pnpm dev
 src/
 ├── api/                 # Homelab API 请求
 ├── components/
-│   ├── inventory/       # 添加设备与服务弹窗
-│   ├── topology/        # React Flow 拓扑
+│   ├── inventory/       # 设备、服务表单与备注编辑/预览
 │   └── ui/              # shadcn 原子组件
 ├── features/inventory/  # 预览数据
-├── pages/Home.tsx       # 主界面与交互状态
+├── pages/Home.tsx       # 只读浏览界面与交互状态
+├── pages/Settings.tsx   # 设备、服务和备注管理
 ├── styles/              # 设计令牌与 Homelab 布局
 └── types/               # 手写 API 类型
 

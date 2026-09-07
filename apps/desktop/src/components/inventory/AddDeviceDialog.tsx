@@ -1,6 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { createMachine, createRouter } from "@/api/inventory";
+import { createMachine, createRouter, updateMachine, updateRouter } from "@/api/inventory";
 import { Modal } from "@/components/inventory/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,25 +18,28 @@ type DeviceKind = "router" | "machine";
 
 interface AddDeviceDialogProps {
 	open: boolean;
+	device?: RouterDevice | Machine;
+	kind: DeviceKind;
 	routers: RouterDevice[];
 	selectedRouterID?: string;
 	onOpenChange: (open: boolean) => void;
 	onCreated: (device: RouterDevice | Machine) => Promise<void> | void;
 }
 
-export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
+const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
+	kind,
+	device,
 	open,
 	routers,
 	selectedRouterID,
 	onOpenChange,
 	onCreated,
 }) => {
-	const [kind, setKind] = useState<DeviceKind>(routers.length ? "machine" : "router");
 	const [routerID, setRouterID] = useState(selectedRouterID || routers[0]?.id || "");
 	const [name, setName] = useState("");
 	const [address, setAddress] = useState("");
 	const [managementURL, setManagementURL] = useState("");
-	const [image, setImage] = useState("server");
+	const [image, setImage] = useState(kind === "router" ? "router-white" : "server");
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState("");
 
@@ -44,8 +47,24 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
 		if (selectedRouterID) setRouterID(selectedRouterID);
 	}, [selectedRouterID]);
 
+	useEffect(() => {
+		if (open) {
+			setName(device?.name ?? "");
+			setAddress(device?.address ?? "");
+			setManagementURL(device?.management_url ?? "");
+			setImage(device?.image || (kind === "machine" ? "server" : "router-white"));
+			setError("");
+			setRouterID(
+				device && "router_id" in device
+					? device.router_id
+					: selectedRouterID || routers[0]?.id || "",
+			);
+		}
+	}, [open]);
+
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
+		if (saving) return;
 		setSaving(true);
 		setError("");
 		try {
@@ -54,11 +73,14 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
 				address,
 				management_url: managementURL,
 				image,
-				status: "unknown" as const,
-				sort_order: kind === "router" ? routers.length : 0,
+				status: device?.status ?? "unknown",
+				sort_order: device?.sort_order ?? (kind === "router" ? routers.length : 0),
 			};
-			const created =
-				kind === "router"
+			const created = device
+				? kind === "router"
+					? await updateRouter(device.id, common)
+					: await updateMachine(device.id, common)
+				: kind === "router"
 					? await createRouter({ ...common, image: image || "router-white" })
 					: await createMachine(routerID, common);
 			await onCreated(created);
@@ -76,30 +98,23 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
 	return (
 		<Modal
 			open={open}
-			title="添加设备"
-			description="手动录入路由器或连接到路由器的机器。"
-			onOpenChange={onOpenChange}
+			title={`${device ? "编辑" : "添加"}${kind === "router" ? "路由器" : "机器"}`}
+			description={
+				device
+					? "修改设备名称、地址和外观。"
+					: kind === "router"
+						? "添加一个网络，管理它的设备与服务。"
+						: "将机器添加到所属路由器，记录服务与维护信息。"
+			}
+			onOpenChange={(next) => {
+				if (!saving) onOpenChange(next);
+			}}
 		>
 			<form className="space-y-5" onSubmit={submit}>
-				<div className="grid grid-cols-2 gap-2 rounded-xl bg-muted p-1">
-					{(["router", "machine"] as const).map((value) => (
-						<Button
-							key={value}
-							type="button"
-							size="sm"
-							variant={kind === value ? "secondary" : "ghost"}
-							className="w-full"
-							onClick={() => setKind(value)}
-						>
-							{value === "router" ? "路由器" : "机器"}
-						</Button>
-					))}
-				</div>
-
 				{kind === "machine" && (
 					<div className="space-y-2">
 						<Label htmlFor="device-router">所属路由器</Label>
-						<Select value={routerID} onValueChange={setRouterID} required>
+						<Select value={routerID} onValueChange={setRouterID} required disabled={!!device}>
 							<SelectTrigger id="device-router">
 								<SelectValue placeholder="选择路由器" />
 							</SelectTrigger>
@@ -182,14 +197,31 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({
 				)}
 
 				<footer className="flex justify-end gap-3 pt-2">
-					<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+					<Button
+						type="button"
+						variant="ghost"
+						disabled={saving}
+						onClick={() => onOpenChange(false)}
+					>
 						取消
 					</Button>
 					<Button type="submit" disabled={saving || (kind === "machine" && !routerID)}>
-						{saving ? "正在保存…" : "添加设备"}
+						{saving
+							? "正在保存…"
+							: device
+								? "保存修改"
+								: kind === "router"
+									? "添加路由器"
+									: "添加机器"}
 					</Button>
 				</footer>
 			</form>
 		</Modal>
 	);
 };
+
+type DialogProps = Omit<AddDeviceDialogProps, "kind">;
+export const AddRouterDialog = (props: DialogProps) => <AddDeviceDialog {...props} kind="router" />;
+export const AddMachineDialog = (props: DialogProps) => (
+	<AddDeviceDialog {...props} kind="machine" />
+);

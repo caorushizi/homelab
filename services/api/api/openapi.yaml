@@ -6,6 +6,48 @@ info:
 servers:
   - url: http://127.0.0.1:3000
 paths:
+  /machines/{machineID}/note:
+    parameters:
+      - name: machineID
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Read a machine Markdown note (empty content and revision 0 when absent)
+      responses:
+        '200':
+          description: Standard success envelope containing machine_id, content, revision and updated_at
+        '404':
+          description: Machine not found
+    put:
+      summary: Save a machine Markdown note with optimistic revision matching
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content, revision]
+              properties:
+                content:
+                  type: string
+                  description: UTF-8 Markdown, at most 102400 bytes; empty string clears the note
+                revision:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Revision from GET; 0 creates the first version
+      responses:
+        '200':
+          description: Standard success envelope containing machine_id, content, incremented revision and updated_at
+        '400':
+          description: Invalid content or revision
+        '404':
+          description: Machine not found
+        '409':
+          description: Revision conflict; reload before merging and saving
+
   /health:
     get:
       summary: Check API and database health
