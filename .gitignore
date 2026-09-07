@@ -17,3 +17,6 @@ coverage
 .DS_Store
 .env.*
 !.env.example
+
+.artifacts
+output

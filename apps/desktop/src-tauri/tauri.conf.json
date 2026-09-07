@@ -1,6 +1,6 @@
 {
 	"$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-	"productName": "Homelab",
+	"productName": "homelab",
 	"version": "0.1.0",
 	"identifier": "dev.caorushizi.labmap",
 	"build": {
@@ -12,9 +12,9 @@
 	"app": {
 		"windows": [
 			{
-				"title": "Homelab",
-				"width": 1440,
-				"height": 960,
+				"title": "homelab",
+				"width": 1100,
+				"height": 720,
 				"minWidth": 1100,
 				"minHeight": 720,
 				"center": true,

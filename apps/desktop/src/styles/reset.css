@@ -30,6 +30,20 @@ legend {
 	padding: 0;
 }
 
+/* Keep viewport scrolling inside the app instead of bouncing the WebView. */
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
+#root {
+	height: 100%;
+	overflow: auto;
+	overscroll-behavior: none;
+}
+
 /* 根元素优化 */
 html {
 	/* 改善文本渲染 */

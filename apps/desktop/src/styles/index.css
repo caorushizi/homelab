@@ -8,3 +8,6 @@
 @import "./workspace.css" layer(components);
 
 @import "./settings.css" layer(components);
+
+@import "./device-stage.css" layer(components);
+@import "./server-setup.css";

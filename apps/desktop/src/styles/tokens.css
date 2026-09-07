@@ -243,3 +243,62 @@
 		--orbit-border: rgb(121 147 194 / 0.34);
 	}
 }
+
+/* Router palettes are scoped to the workspace; settings retain their own theme. */
+@layer theme {
+	.violet-workspace {
+		--stage-hue: 267;
+		--stage-image-hue: 0deg;
+		--stage-base: hsl(var(--stage-hue) 65% 95%);
+		--stage-ink: hsl(var(--stage-hue) 32% 23%);
+		--stage-muted: hsl(var(--stage-hue) 22% 42%);
+		--stage-line: hsl(var(--stage-hue) 38% 37% / 0.17);
+		--stage-glass: rgb(255 255 255 / 0.35);
+		--stage-hover: rgb(255 255 255 / 0.6);
+		--stage-sidebar: hsl(var(--stage-hue) 100% 94% / 0.34);
+		--stage-selection: hsl(var(--stage-hue) 60% 65% / 0.2);
+		--stage-selection-line: hsl(var(--stage-hue) 56% 50% / 0.52);
+		--stage-accent: hsl(var(--stage-hue) 55% 43%);
+		--stage-popover: hsl(var(--stage-hue) 100% 98%);
+		--stage-primary: hsl(var(--stage-hue) 54% 42%);
+		--stage-primary-ink: #ffffff;
+		--stage-primary-hover: hsl(var(--stage-hue) 54% 47%);
+		--stage-shadow: hsl(var(--stage-hue) 70% 12% / 0.25);
+		--stage-highlight: hsl(var(--stage-hue) 100% 88% / 0.35);
+		--stage-background-opacity: 0.16;
+	}
+	.violet-workspace[data-stage-tone="blue"] {
+		--stage-hue: 217;
+		--stage-image-hue: -50deg;
+	}
+	.violet-workspace[data-stage-tone="teal"] {
+		--stage-hue: 172;
+		--stage-image-hue: -95deg;
+	}
+	.violet-workspace[data-stage-tone="rose"] {
+		--stage-hue: 330;
+		--stage-image-hue: 63deg;
+	}
+	.violet-workspace[data-stage-tone="amber"] {
+		--stage-hue: 28;
+		--stage-image-hue: 121deg;
+	}
+	:root[data-theme="dark"] .violet-workspace {
+		--stage-base: hsl(var(--stage-hue) 56% 14%);
+		--stage-ink: hsl(var(--stage-hue) 100% 98%);
+		--stage-muted: hsl(var(--stage-hue) 40% 79%);
+		--stage-line: hsl(var(--stage-hue) 100% 90% / 0.16);
+		--stage-glass: hsl(var(--stage-hue) 100% 86% / 0.055);
+		--stage-hover: hsl(var(--stage-hue) 100% 86% / 0.12);
+		--stage-sidebar: hsl(var(--stage-hue) 68% 70% / 0.065);
+		--stage-selection: hsl(var(--stage-hue) 81% 67% / 0.16);
+		--stage-selection-line: hsl(var(--stage-hue) 100% 81% / 0.53);
+		--stage-accent: hsl(var(--stage-hue) 100% 82%);
+		--stage-popover: hsl(var(--stage-hue) 48% 20%);
+		--stage-primary: hsl(var(--stage-hue) 56% 38%);
+		--stage-primary-hover: hsl(var(--stage-hue) 56% 44%);
+		--stage-shadow: hsl(var(--stage-hue) 86% 6% / 0.38);
+		--stage-highlight: hsl(var(--stage-hue) 100% 81% / 0.27);
+		--stage-background-opacity: 1;
+	}
+}

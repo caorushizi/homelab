@@ -1,0 +1,103 @@
+.server-setup {
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	place-items: center;
+	min-height: 100dvh;
+	padding: 96px 24px;
+	background: var(--stage-base);
+	color: var(--stage-ink);
+	--ring: var(--stage-accent);
+}
+.setup-theme-toggle {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	z-index: 2;
+	border-radius: 50%;
+	border-color: var(--stage-line);
+	background: var(--stage-glass);
+	color: var(--stage-muted);
+	backdrop-filter: blur(20px);
+}
+.setup-theme-toggle:hover {
+	background: var(--stage-hover);
+	color: var(--stage-ink);
+}
+.setup-card {
+	width: 100%;
+	max-width: 460px;
+	border: 1px solid var(--stage-line);
+	border-radius: 28px;
+	background: var(--stage-sidebar);
+	color: var(--stage-ink);
+	box-shadow:
+		inset 0 1px 0 var(--stage-highlight),
+		0 24px 80px var(--stage-shadow);
+	backdrop-filter: blur(32px);
+}
+.setup-card-header {
+	padding: 38px 36px 30px;
+}
+.setup-title {
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.3;
+	letter-spacing: -0.8px;
+}
+.setup-card-content {
+	padding: 0 36px 36px;
+}
+.setup-form {
+	display: grid;
+	gap: 24px;
+}
+.setup-label {
+	color: var(--stage-muted);
+	font-size: 13px;
+}
+.setup-input {
+	height: 52px;
+	padding: 0 16px;
+	border-color: var(--stage-line);
+	border-radius: 14px;
+	background: var(--stage-glass);
+	color: var(--stage-ink);
+	font-size: 15px;
+}
+.setup-input::placeholder {
+	color: var(--stage-muted);
+}
+.setup-input:focus-visible {
+	border-color: var(--stage-accent);
+}
+.setup-submit {
+	width: 100%;
+	min-height: 50px;
+	border: 1px solid var(--stage-selection-line);
+	border-radius: 30px;
+	background: var(--stage-primary);
+	color: var(--stage-primary-ink);
+	font-size: 15px;
+}
+.setup-submit:hover {
+	background: var(--stage-primary-hover);
+}
+@media (max-width: 480px) {
+	.setup-card-header {
+		padding: 30px 24px 24px;
+	}
+	.setup-card-content {
+		padding: 0 24px 28px;
+	}
+	.setup-title {
+		font-size: 25px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.server-setup *,
+	.server-setup *::before,
+	.server-setup *::after {
+		transition: none !important;
+	}
+}

@@ -1,5 +1,5 @@
 [package]
-name = "labmap-desktop"
+name = "homelab"
 version = "0.1.0"
 description = "Homelab desktop application"
 authors = ["caorushizi"]

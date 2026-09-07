@@ -26,8 +26,7 @@ function ServerRoutes({ serverURL }: { serverURL: string }) {
 		{ path: "/routers/:routerID", element: <Home /> },
 		{ path: "*", element: <Navigate to="/" replace /> },
 	]);
-	// Do not mount overview until startup navigation resolves: its effects would
-	// otherwise overwrite the saved machine and note state before restoration.
+	// Restore the saved route before mounting the device workspace.
 	if (startupPath && location.pathname !== startupPath)
 		return <Navigate to={startupPath} replace />;
 	return routes;
