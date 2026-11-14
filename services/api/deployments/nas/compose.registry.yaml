@@ -15,7 +15,7 @@ services:
       - homelab-postgres-data:/var/lib/postgresql
 
   homelab-api:
-    image: 192.168.8.11:5080/homelab-api:0.1.0
+    image: 192.168.100.196:5080/homelab-api:0.1.0
     restart: unless-stopped
     depends_on:
       postgres:

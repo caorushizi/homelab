@@ -4,11 +4,11 @@
 
 1. 在群晖创建目录（例如 /volume1/docker/homelab），将 compose.registry.yaml 上传并命名为 compose.yaml。
 2. 同目录创建 .env，设置 HOMELAB_DB_PASSWORD 为随机的 32 位以上字母数字密码，避免 URL 特殊字符。可用 `openssl rand -hex 24` 生成。可选设置 HOMELAB_PORT=3000。
-3. 确认群晖 Docker 允许 HTTP 仓库 192.168.8.11:5080，并登录该仓库。镜像引用不包含 http://。
+3. 确认群晖 Docker 允许 HTTP 仓库 192.168.100.196:5080，并登录该仓库。镜像引用不包含 http://。
 4. 在 Container Manager 的「项目」中创建 homelab，选择上述目录和 compose.yaml，构建并启动。也可以通过 SSH 在该目录执行：
 
 ```sh
-docker login 192.168.8.11:5080
+docker login 192.168.100.196:5080
 docker compose pull
 docker compose up -d
 docker compose ps
